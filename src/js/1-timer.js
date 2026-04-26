@@ -3,7 +3,6 @@ import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-
 const input = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('button[data-start]');
 const daysVal = document.querySelector('[data-days]');
@@ -15,6 +14,8 @@ let userSelectedDate = null;
 let timerId = null;
 
 
+startBtn.disabled = true;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -23,7 +24,8 @@ const options = {
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
     
-    if (selectedDate < new Date()) {
+    
+    if (selectedDate <= new Date()) {
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
@@ -39,7 +41,6 @@ const options = {
 
 flatpickr(input, options);
 
-
 startBtn.addEventListener('click', () => {
   toggleInterface(true);
   
@@ -49,7 +50,10 @@ startBtn.addEventListener('click', () => {
     if (deltaTime <= 0) {
       clearInterval(timerId);
       updateTimerInterface(convertMs(0));
-      toggleInterface(false);
+      
+      
+      input.disabled = false;
+      startBtn.disabled = true; 
       return;
     }
     
@@ -57,7 +61,6 @@ startBtn.addEventListener('click', () => {
     updateTimerInterface(timeComponents);
   }, 1000);
 });
-
 
 function toggleInterface(isActive) {
   startBtn.disabled = isActive;
