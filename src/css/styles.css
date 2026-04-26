@@ -65,7 +65,7 @@ button[data-start]:disabled {
   
 }
 
-@import "izitoast/dist/css/iziToast.min.css";
+
 
 .form {
   display: flex;
